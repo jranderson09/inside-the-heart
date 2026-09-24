@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Inside the Heart</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#faf6f4;--fg:#22181a;--card:#fff;--mut:#6b5a5d;--red:#c0182f;--blue:#4468c9;--gold:#d9a400;--line:#e8dcd9}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#130b0d;--fg:#f4e9ea;--card:#211518;--mut:#b7a3a6;--red:#e5384f;--blue:#6f8ef0;--line:#3a2a2d}}
+:root[data-theme="dark"]{--bg:#130b0d;--fg:#f4e9ea;--card:#211518;--mut:#b7a3a6;--red:#e5384f;--blue:#6f8ef0;--line:#3a2a2d}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 Georgia,serif}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;display:flex;gap:4px;overflow-x:auto;padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--line);font:600 .85rem system-ui,sans-serif}
+nav b{color:var(--red);margin-right:auto;white-space:nowrap;padding:6px 0}
+nav a{color:var(--fg);text-decoration:none;padding:6px 10px;border-radius:99px;white-space:nowrap}
+nav a:hover{background:var(--line)}
+main{max-width:940px;margin:0 auto;padding:0 20px 60px}
+section{padding-top:56px}
+h1{font-size:clamp(2.4rem,8vw,4.2rem);line-height:1;margin:.15em 0}
+h2{font-size:1.9rem;margin:0 0 .2em}
+p{color:var(--mut);margin:.3em 0 1em}
+.eyebrow{font:700 .78rem system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--red)}
+.hero{text-align:center;padding-top:40px}
+.heart{width:150px;height:135px;animation:beat var(--d,.83s) infinite ease-in-out}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.14)}30%{transform:scale(1)}45%{transform:scale(1.07)}}
+.sans{font-family:system-ui,sans-serif}
+.bpm{font-size:2.2rem;font-weight:700;color:var(--red)}
+input[type=range]{width:min(340px,90%);accent-color:var(--red)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.two{display:grid;gap:18px;grid-template-columns:1.1fr 1fr;align-items:start}
+@media(max-width:700px){.two{grid-template-columns:1fr}}
+svg.map{width:100%;height:auto;max-height:480px}
+.part{cursor:pointer;transition:filter .15s}
+.part:hover,.part:focus{filter:brightness(1.2);outline:none}
+.part.sel{stroke:var(--fg);stroke-width:3}
+.lo{fill:var(--blue);stroke:var(--blue)}.hi{fill:var(--red);stroke:var(--red)}
+.vessel,.vessel.lo,.vessel.hi{fill:none;stroke-linecap:round}nav .btn{margin-left:8px;padding:6px 12px}
+.valve{fill:#fff;fill-opacity:.85;stroke:#555;stroke-width:2}
+.legend{display:flex;gap:14px;font:.8rem system-ui,sans-serif;color:var(--mut);margin-top:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+.note{border-left:3px solid var(--gold);padding-left:12px;font-size:.95rem}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;font-family:system-ui,sans-serif}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--fg);padding:8px 14px;border-radius:99px;cursor:pointer;font:600 .85rem system-ui,sans-serif}
+.btn.on{background:var(--red);border-color:var(--red);color:#fff}
+canvas{width:100%;height:190px;background:var(--card);border:1px solid var(--line);border-radius:14px;display:block}
+.opt{display:block;width:100%;text-align:left;margin:8px 0;padding:11px 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font:.95rem system-ui,sans-serif;cursor:pointer}
+.opt.good{background:#1f8f4e;color:#fff;border-color:#1f8f4e}.opt.bad{background:var(--red);color:#fff;border-color:var(--red)}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.ph{border-style:dashed}
+.tag{font:700 .72rem system-ui,sans-serif;color:var(--red);text-transform:uppercase;letter-spacing:.1em}
+footer{margin-top:60px;font:.82rem system-ui,sans-serif;color:var(--mut)}
+details summary{cursor:pointer;font:700 1rem system-ui,sans-serif;color:var(--red)}.paper h3{margin:1.3em 0 .2em;font-size:1.1rem}.paper p,.paper li{color:var(--fg)}.paper a{color:var(--red);word-break:break-all}.paper ol{padding-left:1.2em;font-size:.9rem}
+footer ul{padding-left:1.1em;margin:.4em 0}footer a{color:var(--red)}
+</style>
+</head>
+<body>
+<nav><b>♥ Inside the Heart</b><a href="#anatomy">Anatomy</a><a href="#ecg">ECG Lab</a><a href="#quiz">Quiz</a><a href="#notebook">Notebook</a><a href="#paper">Review</a><button class="btn" id="lang" aria-label="Language">Español</button></nav>
+<main>
+<section class="hero">
+  <div class="eyebrow">An interactive guide to the heart</div>
+  <h1>Explore how the heart works.</h1>
+  <p>Tap the anatomy, watch live rhythms, and test yourself. Built by a future cardiovascular surgeon.</p>
+  <svg class="heart" id="heart" viewBox="0 0 100 90" aria-label="Beating heart"><path d="M50 85C20 60 4 44 4 27 4 14 14 5 27 5c9 0 18 5 23 13C55 10 64 5 73 5c13 0 23 9 23 22 0 17-16 33-46 58z" fill="var(--red)"/><path d="M28 30c2-6 8-9 14-7" stroke="#fff" stroke-opacity=".5" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+  <div class="sans"><span class="bpm" id="bpm">72</span> beats per minute<br><input type="range" id="rate" min="40" max="180" value="72" aria-label="Heart rate"><div id="rateNote" style="color:var(--mut);font-size:.85rem"></div></div>
+</section>
+
+<section id="anatomy">
+  <div class="eyebrow">01 · Anatomy</div><h2>Tap the heart</h2>
+  <p>Every part is clickable. Learn what it does and why surgeons care about it.</p>
+  <div class="two">
+    <div>
+      <svg class="map" viewBox="0 0 300 330" id="map" role="group" aria-label="Heart diagram">
+        <path class="part vessel hi" data-k="ao" d="M178 155C178 62 192 32 226 40 258 48 262 100 262 150" stroke-width="24"/>
+        <path class="part vessel lo" data-k="svc" d="M78 12V115" stroke-width="22"/>
+        <ellipse class="part lo" data-k="ra" cx="85" cy="155" rx="40" ry="44"/>
+        <ellipse class="part hi" data-k="la" cx="232" cy="190" rx="32" ry="34"/>
+        <ellipse class="part lo" data-k="rv" cx="115" cy="238" rx="50" ry="66" transform="rotate(-10 115 238)"/>
+        <ellipse class="part hi" data-k="lv" cx="195" cy="242" rx="58" ry="76" transform="rotate(10 195 242)"/>
+        <path class="part vessel lo" data-k="pa" d="M138 150C138 108 172 96 210 102" stroke-width="18"/>
+        <circle class="part valve" data-k="tv" cx="102" cy="203" r="11"/>
+        <circle class="part valve" data-k="mv" cx="180" cy="200" r="11"/>
+        <circle class="part valve" data-k="av" cx="176" cy="160" r="10"/>
+        <path class="part vessel" data-k="lad" d="M160 195C168 235 185 275 200 308" stroke="#e8b100" stroke-width="7"/>
+        <g font-family="system-ui" font-size="14" font-weight="700" fill="#fff" text-anchor="middle" pointer-events="none"><text x="85" y="160">RA</text><text x="112" y="245">RV</text><text x="232" y="195">LA</text><text x="200" y="250">LV</text></g>
+      </svg>
+      <div class="legend"><span><i style="background:var(--blue)"></i>Oxygen-poor</span><span><i style="background:var(--red)"></i>Oxygen-rich</span><span><i style="background:#e8b100"></i>Coronary artery</span></div>
+    </div>
+    <div class="card" id="info" aria-live="polite"><div class="tag">Select a part</div><h3 style="margin:.2em 0">Start anywhere</h3><p>Tap a chamber, valve, or vessel to see what it does.</p></div>
+  </div>
+</section>
+
+<section id="ecg">
+  <div class="eyebrow">02 · ECG Lab</div><h2>Watch a rhythm live</h2>
+  <p>An electrocardiogram records the heart's electrical activity. Pick a rhythm and compare.</p>
+  <div class="btns" id="rbtns"></div>
+  <canvas id="cv" aria-label="Live ECG trace"></canvas>
+  <div class="card" style="margin-top:12px" id="rinfo"></div>
+</section>
+
+<section id="quiz">
+  <div class="eyebrow">03 · Quiz</div><h2>Test yourself</h2>
+  <div class="card" id="qbox"></div>
+</section>
+
+<section id="notebook">
+  <div class="eyebrow">04 · Surgeon's Notebook</div><h2>My path to the operating room</h2>
+  <p>Real experiences that shaped my interest in cardiovascular surgery.</p>
+  <div class="grid">
+    <div class="card"><div class="tag">Shadowing · 50+ hours</div><h3>Shadowing Dr. Curtis Anderson, Cardiac Surgery, REX Hospital, Raleigh</h3><p>Over 50 hours alongside Dr. Curtis Anderson at REX Hospital, I learned that surgery begins before the operating room. Dr. Anderson spoke in a calm, steady manner and walked the patient and family through each step of what he would do. His knowledge was unmistakable, and I watched the family relax. Inside the operating room, everything was focused and precise. After a successful surgery, I saw how grateful the family was. That moment showed me the kind of surgeon I want to become: one who can bring families that kind of relief.</p></div>
+    <div class="card"><div class="tag">Reading · Phlebology, 2024</div><h3><a href="https://journals.sagepub.com/doi/10.1177/02683555231222679" target="_blank" rel="noopener" style="color:var(--red)">Compression therapy in the management of varicose veins</a></h3><p>One open question in my reading stayed with me: should people with early, symptom-free venous disease (classes C1 and C2) use compression to keep it from getting worse? Compression lowers pressure in the veins, but no well-designed studies have tested whether it slows progression, so doctors cannot yet make an evidence-based recommendation. The authors call for a large randomized trial comparing options head to head. It showed me that even common treatments have unanswered questions, and that answering them takes careful research.</p></div>
+    <div class="card"><div class="tag">Community · 300+ hours</div><h3>Volunteer, Compression Care Center</h3><p>Across four years of high school, I volunteered 300+ hours at Compression Care Center. I took calls, ran packages to the post office, and helped build the company's website. I also worked directly with clients, many of them elderly, who came in with varicose veins and other heart-related concerns. The work taught me to stay professional and patient with every client, including those who were frustrated or difficult, and to pay close attention to what each person needed.</p></div>
+  </div>
+</section>
+<section id="paper">
+  <div class="eyebrow">05 · Review Paper</div><h2>A literature review connecting my volunteering to the research</h2>
+  <p>Read the full review below. (Available in English.)</p>
+  <details class="card paper"><summary>Read the review</summary>
+  <h3 style="font-size:1.4rem;margin-top:.8em">Compression Therapy for Chronic Venous Disease: What the Evidence Says and Where It Falls Short</h3>
+  <p><i>Jacob Anderson · A narrative literature review, not original research.</i></p>
+  <h3>Abstract</h3>
+  <p>Chronic venous disease (CVD), which includes varicose veins, is commonly managed with compression therapy. This review summarizes recent guidance and studies on how well compression works, how long patients should use it, and why some patients stop. Compression is widely recommended and helps with symptoms and complications, but evidence on the best daily duration is limited and adherence remains a challenge. I connect these findings to more than 300 hours of volunteering at a compression care center.</p>
+  <h3>1. Background</h3>
+  <p>CVD affects the veins of the legs, where weakened walls and valves let blood pool. It involves the veins rather than the heart itself, but it belongs to the wider field of vascular medicine that cardiovascular and vascular surgeons work within. Compression has been used to treat venous disease for centuries [1] and is widely prescribed with guideline support [2].</p>
+  <h3>2. What the evidence shows</h3>
+  <p>A 2024 guidance document from the International Union of Phlebology reports that compression reduces ulceration and is effective for symptoms of CVD, including swelling [3]. A 2008 meta-analysis of 11 randomized trials (1,453 participants) found that stockings with 10 to 20 mmHg of ankle pressure reduced swelling and symptoms, while lower pressure was ineffective and higher pressure added no clear benefit [4]. The authors noted uneven reporting and study methods, and the analysis was commissioned by an outside company that, they state, did not influence its design or interpretation [4]. A recent set of clinical guidelines made 30 recommendations across seven areas of venous disease. Seven were strong and 17 rested on high-quality evidence, which the authors say highlights the need for more research [5].</p>
+  <h3>3. Gaps in the evidence</h3>
+  <p>Much of the literature focuses on venous leg ulcers, on comparing compression with procedures, and on compression after procedures, rather than everyday use [3]. A 2023 systematic review of 41 studies found no established data on the best daily duration, and the studies were too different in design and quality to combine statistically [2]. The same 2024 guidance notes that how long compression lasts often depends on clinician preference [3]. It also identifies an open question: whether people with early, symptom-free disease (classes C1 and C2) should use compression to prevent progression. No well-designed studies have tested this, so no evidence-based recommendation can be made, and the authors call for a large randomized trial to settle it [3].</p>
+  <h3>4. The adherence problem</h3>
+  <p>A published case report describes an 88-year-old patient whose leg ulcer improved with compression, returned after two months of not using it, and improved again once she was given a structured program with demonstrations, written instructions, reminders, and weekly follow-ups [6]. A single case cannot prove a general rule, but it shows why patient education may matter as much as the stockings themselves.</p>
+  <h3>5. Reflection from my volunteer work</h3>
+  <p>Over four years and more than 300 hours as a volunteer, I took calls, ran packages to the post office, helped build the company's website, and worked directly with clients, many of them elderly, who came in with varicose veins and other circulatory concerns. Some clients were frustrated or difficult, and I learned that patience and close attention to each person's needs matter as much as the product itself. That experience shapes how I read the research above: if sticking with compression is a real challenge for patients, then clear communication and patient support are part of the treatment.</p>
+  <h3>6. Conclusion and limitations</h3>
+  <p>The sources agree that compression helps, but they leave open how long it should be worn and how to help patients keep using it. This is a short narrative review of a small set of sources, not a systematic one, and it is not medical advice. As someone hoping to become a cardiovascular surgeon, I see this as a reminder that good outcomes depend on what happens after treatment as well as the procedure itself.</p>
+  <h3>References</h3>
+  <ol>
+  <li>Attaran RR, Ochoa Chaar CI. Compression therapy for venous disease. Phlebology. 2017. <a href="https://doi.org/10.1177/0268355516633382" target="_blank" rel="noopener">doi.org/10.1177/0268355516633382</a></li>
+  <li>Mirakhmedova S, et al. Daily duration of compression treatment in chronic venous disease patients: a systematic review. J Pers Med. 2023;13(9):1316. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10533179/" target="_blank" rel="noopener">PMC10533179</a></li>
+  <li>Tan M, Urbanek T, Rabe E, Gianesini S, Parsi K, Davies AH, on behalf of the UIP. Compression therapy in the management of varicose veins. Phlebology. 2024;39(4). <a href="https://journals.sagepub.com/doi/10.1177/02683555231222679" target="_blank" rel="noopener">doi.org/10.1177/02683555231222679</a></li>
+  <li>Amsler F, Blättler W. Compression therapy for occupational leg symptoms and chronic venous disorders: a meta-analysis of randomised controlled trials. Eur J Vasc Endovasc Surg. 2008;35:366–372. <a href="https://www.ejves.com/article/S1078-5884(07)00653-3/pdf" target="_blank" rel="noopener">ejves.com</a></li>
+  <li>Sun C-R, Liu M-Y, Ni Q-H, et al. Clinical guidelines on compression therapy in venous diseases. Ann Vasc Surg. 2025;110(Pt B):183–203. doi:10.1016/j.avsg.2024.07.083 <a href="https://www.sciencedirect.com/science/article/abs/pii/S0890509624004515" target="_blank" rel="noopener">ScienceDirect</a></li>
+  <li>Compression therapy challenges and ulcer recurrence in chronic venous insufficiency: a case report and review of management approaches. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12824817/" target="_blank" rel="noopener">PMC12824817</a></li>
+  </ol>
+  </details>
+</section>
+<footer>
+<b>Sources</b>
+<ul>
+<li>Anatomy and blood flow: <a href="https://www.nhlbi.nih.gov/health/heart/anatomy" target="_blank" rel="noopener">NHLBI (NIH), How the Heart Works</a></li>
+<li>Reading entry: <a href="https://journals.sagepub.com/doi/10.1177/02683555231222679" target="_blank" rel="noopener">Tan et al., Compression therapy in the management of varicose veins, Phlebology, 2024</a></li>
+<li>Review paper references: see section 05.</li>
+</ul>
+<p style="margin:.4em 0">Site created by Jacob Anderson. The ECG simulator, quiz, and explanations are educational summaries written for this project.</p>
+<p style="margin:.4em 0">Educational overview, not medical advice.</p>
+</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+let L='en',cur=null;
+const T={"Sources":"Fuentes","Anatomy and blood flow:":"Anatomía y flujo sanguíneo:","Reading entry:":"Lectura:","Review paper references: see section 05.":"Referencias del artículo de revisión: ver la sección 05.","Site created by Jacob Anderson. The ECG simulator, quiz, and explanations are educational summaries written for this project.":"Sitio creado por Jacob Anderson. El simulador de ECG, el cuestionario y las explicaciones son resúmenes educativos escritos para este proyecto.","Educational overview, not medical advice.":"Resumen educativo, no es consejo médico.","Review":"Revisión","05 · Review Paper":"05 · Artículo de revisión","A literature review connecting my volunteering to the research":"Una revisión de la literatura que conecta mi voluntariado con la investigación","Read the full review below. (Available in English.)":"Lee la revisión completa abajo. (Disponible solo en inglés.)","Read the review":"Leer la revisión",
+"Shadowing · 50+ hours":"Observación clínica · más de 50 horas","Shadowing Dr. Curtis Anderson, Cardiac Surgery, REX Hospital, Raleigh":"Observando al Dr. Curtis Anderson, Cirugía Cardíaca, Hospital REX, Raleigh",
+"Over 50 hours alongside Dr. Curtis Anderson at REX Hospital, I learned that surgery begins before the operating room. Dr. Anderson spoke in a calm, steady manner and walked the patient and family through each step of what he would do. His knowledge was unmistakable, and I watched the family relax. Inside the operating room, everything was focused and precise. After a successful surgery, I saw how grateful the family was. That moment showed me the kind of surgeon I want to become: one who can bring families that kind of relief.":"Durante más de 50 horas junto al Dr. Curtis Anderson en el Hospital REX, aprendí que la cirugía empieza antes del quirófano. El Dr. Anderson hablaba con calma y seguridad, y explicó al paciente y a la familia cada paso de lo que iba a hacer. Su conocimiento era evidente, y vi cómo la familia se tranquilizaba. Dentro del quirófano, todo era enfocado y preciso. Después de una cirugía exitosa, vi lo agradecida que estaba la familia. Ese momento me mostró el tipo de cirujano que quiero ser: uno que pueda darles ese alivio a las familias.",
+"Reading · Phlebology, 2024":"Lectura · Phlebology, 2024",
+"One open question in my reading stayed with me: should people with early, symptom-free venous disease (classes C1 and C2) use compression to keep it from getting worse? Compression lowers pressure in the veins, but no well-designed studies have tested whether it slows progression, so doctors cannot yet make an evidence-based recommendation. The authors call for a large randomized trial comparing options head to head. It showed me that even common treatments have unanswered questions, and that answering them takes careful research.":"Una pregunta abierta me quedó en la mente: ¿deberían las personas con enfermedad venosa temprana y sin síntomas (clases C1 y C2) usar compresión para evitar que empeore? La compresión reduce la presión en las venas, pero no hay estudios bien diseñados que prueben si frena la progresión, así que los médicos todavía no pueden hacer una recomendación basada en evidencia. Los autores piden un ensayo aleatorizado grande que compare opciones directamente. Me mostró que incluso los tratamientos comunes tienen preguntas sin respuesta, y que responderlas requiere investigación cuidadosa.","An open question in venous disease research":"Una pregunta abierta en la investigación de enfermedades venosas",
+"Community · 300+ hours":"Comunidad · más de 300 horas","Volunteer, Compression Care Center":"Voluntario, Compression Care Center",
+"Across four years of high school, I volunteered 300+ hours at Compression Care Center. I took calls, ran packages to the post office, and helped build the company's website. I also worked directly with clients, many of them elderly, who came in with varicose veins and other heart-related concerns. The work taught me to stay professional and patient with every client, including those who were frustrated or difficult, and to pay close attention to what each person needed.":"Durante cuatro años de secundaria, fui voluntario más de 300 horas en Compression Care Center. Contesté llamadas, llevé paquetes al correo y ayudé a crear el sitio web de la empresa. También trabajé directamente con clientes, muchos de ellos personas mayores, con várices y otros problemas relacionados con el corazón. El trabajo me enseñó a ser profesional y paciente con todos los clientes, incluso con los que estaban frustrados o eran difíciles, y a prestar mucha atención a lo que cada persona necesitaba.",
+"Anatomy":"Anatomía","ECG Lab":"Laboratorio ECG","Quiz":"Cuestionario","Notebook":"Cuaderno",
+"An interactive guide to the heart":"Una guía interactiva del corazón","Explore how the heart works.":"Descubre cómo funciona el corazón.",
+"Tap the anatomy, watch live rhythms, and test yourself. Built by a future cardiovascular surgeon.":"Toca la anatomía, mira ritmos en vivo y ponte a prueba. Creado por un futuro cirujano cardiovascular.",
+"beats per minute":"latidos por minuto","01 · Anatomy":"01 · Anatomía","Tap the heart":"Toca el corazón",
+"Every part is clickable. Learn what it does and why surgeons care about it.":"Cada parte es interactiva. Aprende qué hace y por qué les importa a los cirujanos.",
+"Oxygen-poor":"Pobre en oxígeno","Oxygen-rich":"Rica en oxígeno","Coronary artery":"Arteria coronaria",
+"Select a part":"Selecciona una parte","Start anywhere":"Empieza donde quieras","Tap a chamber, valve, or vessel to see what it does.":"Toca una cámara, válvula o vaso para ver qué hace.",
+"02 · ECG Lab":"02 · Laboratorio ECG","Watch a rhythm live":"Mira un ritmo en vivo",
+"An electrocardiogram records the heart's electrical activity. Pick a rhythm and compare.":"Un electrocardiograma registra la actividad eléctrica del corazón. Elige un ritmo y compara.",
+"03 · Quiz":"03 · Cuestionario","Test yourself":"Ponte a prueba","04 · Surgeon's Notebook":"04 · Cuaderno del cirujano","My path to the operating room":"Mi camino al quirófano",
+"Real experiences that shaped my interest in cardiovascular surgery.":"Experiencias reales que despertaron mi interés en la cirugía cardiovascular.",
+"Shadowing · [date]":"Observación clínica · [fecha]","[Title of your experience]":"[Título de tu experiencia]",
+"Replace with what you observed, what surprised you, and what you took away.":"Reemplaza con lo que observaste, lo que te sorprendió y lo que aprendiste.",
+"Reading · [date]":"Lectura · [fecha]","[Book or article]":"[Libro o artículo]",
+"Replace with what you read about cardiac surgery and one idea that stuck.":"Reemplaza con lo que leíste sobre cirugía cardíaca y una idea que te marcó.",
+"Community · [date]":"Comunidad · [fecha]","[Talk, volunteering, or project]":"[Charla, voluntariado o proyecto]",
+"Replace with what you did and who it helped.":"Reemplaza con lo que hiciste y a quién ayudó.",
+"Educational overview, not medical advice. Sources: add the references you actually used (for example AHA or NHLBI).":"Resumen educativo, no es consejo médico. Fuentes: agrega las referencias que realmente usaste (por ejemplo AHA o NHLBI)."};
+const AE={
+ra:["Aurícula derecha","Recibe sangre pobre en oxígeno del cuerpo y la envía al ventrículo derecho.","Aquí está el marcapasos natural del corazón (nodo sinusal). Los cirujanos suelen conectar aquí la máquina corazón-pulmón."],
+rv:["Ventrículo derecho","Bombea sangre pobre en oxígeno hacia los pulmones.","Tiene la pared delgada porque los pulmones son un circuito de baja presión. Muchos defectos congénitos afectan esta cámara."],
+la:["Aurícula izquierda","Recibe sangre rica en oxígeno de los pulmones.","En la fibrilación auricular se forman coágulos en su apéndice, por eso a veces los cirujanos lo cierran."],
+lv:["Ventrículo izquierdo","La cámara más fuerte. Bombea sangre rica en oxígeno a todo el cuerpo.","Su pared gruesa es el músculo que se daña en los infartos. Su rendimiento se mide como fracción de eyección."],
+svc:["Vena cava superior","Vena grande que devuelve sangre pobre en oxígeno de la cabeza y los brazos.","Es uno de los sitios donde los cirujanos colocan tubos para desviar la sangre durante el bypass."],
+pa:["Arteria pulmonar","Lleva sangre pobre en oxígeno del ventrículo derecho a los pulmones (a diferencia de la mayoría de las arterias, lleva sangre pobre en oxígeno).","Su válvula está en la base. Las reparaciones de la válvula pulmonar son comunes en la cirugía congénita."],
+ao:["Aorta","La arteria más grande del cuerpo; reparte sangre rica en oxígeno desde el ventrículo izquierdo.","Los aneurismas y las disecciones aquí son emergencias quirúrgicas graves."],
+tv:["Válvula tricúspide","Tres valvas entre la aurícula derecha y el ventrículo derecho.","Se repara o se reemplaza cuando tiene fugas."],
+mv:["Válvula mitral","Dos valvas entre la aurícula izquierda y el ventrículo izquierdo.","Siempre que es posible se prefiere reparar la válvula mitral en lugar de reemplazarla."],
+av:["Válvula aórtica","Se abre para que la sangre salga del ventrículo izquierdo hacia la aorta.","Cuando se estrecha (estenosis) puede reemplazarse con cirugía abierta o por catéter (TAVR)."],
+lad:["Arteria descendente anterior izquierda","Arteria coronaria que irriga la parte delantera del ventrículo izquierdo.","Su obstrucción se conoce como 'la hacedora de viudas'. El bypass suele injertarse alrededor de ella."]};
+const RE={normal:["Ritmo sinusal normal","Latidos regulares, cada uno con onda P (aurículas), complejo QRS (los ventrículos se contraen) y onda T (los ventrículos se recuperan)."],
+brady:["Bradicardia","Ritmo lento, menos de 60 lpm. Es normal en atletas; en otras personas puede causar mareos y a veces requiere marcapasos."],
+tachy:["Taquicardia","Ritmo rápido, más de 100 lpm. Es normal con ejercicio o miedo; los episodios sostenidos requieren evaluación."],
+afib:["Fibrilación auricular","Espaciado irregular y sin ondas P claras porque las aurículas tiemblan. Aumenta el riesgo de derrame cerebral y se trata con medicamentos, ablación o cirugía."]};
+const QE=[["¿Qué cámara bombea sangre rica en oxígeno al cuerpo?",["Aurícula derecha","Ventrículo izquierdo","Ventrículo derecho","Aurícula izquierda"],"El ventrículo izquierdo tiene la pared más gruesa porque debe empujar la sangre por todo el cuerpo."],
+["¿Qué válvula está entre la aurícula izquierda y el ventrículo izquierdo?",["Tricúspide","Pulmonar","Mitral","Aórtica"],"La válvula mitral tiene dos valvas. La tricúspide está en el lado derecho."],
+["¿Qué significa CABG (en inglés)?",["Injerto de derivación de arteria coronaria","Guía de balón aórtico cardíaco","Medidor central de sangre arterial","Compuerta de derivación auricular coronaria"],"Los cirujanos usan un vaso de la pierna, el pecho o el brazo para desviar la sangre alrededor de una arteria coronaria obstruida."],
+["En un ECG, ¿qué parte muestra la contracción de los ventrículos?",["Onda P","Complejo QRS","Onda T","Línea base"],"El complejo QRS, alto y agudo, refleja la despolarización ventricular."],
+["¿Por qué es peligrosa la fibrilación auricular?",["Detiene el corazón","Permite coágulos y puede causar un derrame cerebral","Baja el oxígeno en los pulmones","Bloquea las arterias coronarias"],"La sangre se estanca en las aurículas que tiemblan y los coágulos pueden viajar al cerebro."],
+["¿Qué vaso devuelve sangre pobre en oxígeno de la cabeza y los brazos?",["Aorta","Vena pulmonar","Vena cava superior","Arteria coronaria"],"La vena cava superior desemboca en la aurícula derecha."]];
+// hero
+const rate=$('rate'),ht=$('heart');
+function upd(){const v=+rate.value;$('bpm').textContent=v;ht.style.setProperty('--d',(60/v)+'s');$('rateNote').textContent=v<60?'Below typical resting range':v<=100?'Resting adult range':v<=140?'Light to moderate exercise':'Intense exercise'}
+rate.oninput=upd;upd();
+// anatomy
+const A={
+ra:["Right atrium","Receives oxygen-poor blood from the body and passes it to the right ventricle.","The heart's natural pacemaker (sinus node) sits in its wall. Surgeons often connect the heart-lung machine here."],
+rv:["Right ventricle","Pumps oxygen-poor blood to the lungs.","Thin-walled because the lungs are a low-pressure circuit. Many congenital defects involve this chamber."],
+la:["Left atrium","Receives oxygen-rich blood from the lungs.","Its appendage is where clots often form in atrial fibrillation, so surgeons sometimes close it."],
+lv:["Left ventricle","The strongest chamber. It pumps oxygen-rich blood to the whole body.","Its thick wall is the muscle damaged in heart attacks. Its output is measured as ejection fraction."],
+svc:["Superior vena cava","Large vein returning oxygen-poor blood from the head and arms.","One of the sites where surgeons place tubes to divert blood during bypass."],
+pa:["Pulmonary artery","Carries oxygen-poor blood from the right ventricle to the lungs (unlike most arteries, it carries oxygen-poor blood).","Its valve sits at the base. Pulmonary valve repairs are common in congenital surgery."],
+ao:["Aorta","The body's largest artery, delivering oxygen-rich blood from the left ventricle.","Aneurysms and dissections here are major surgical emergencies."],
+tv:["Tricuspid valve","Three flaps between the right atrium and right ventricle.","Repaired or replaced when it leaks."],
+mv:["Mitral valve","Two flaps between the left atrium and left ventricle.","Mitral repair is often preferred over replacement when possible."],
+av:["Aortic valve","Opens to let blood leave the left ventricle into the aorta.","When it narrows (stenosis), it can be replaced by open surgery or through a catheter (TAVR)."],
+lad:["Left anterior descending artery","A coronary artery feeding the front of the left ventricle.","Its blockage is nicknamed the 'widowmaker'. Bypass surgery often grafts around it."]};
+document.querySelectorAll('#map .part').forEach(el=>{el.setAttribute('tabindex',0);el.setAttribute('role','button');const k=el.dataset.k;el.setAttribute('aria-label',A[k][0]);
+const go=()=>{document.querySelectorAll('.part.sel').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');const a=A[k];$('info').innerHTML='<div class="tag">Selected</div><h3 style="margin:.2em 0">'+a[0]+'</h3><p style="color:var(--fg)">'+a[1]+'</p><p class="note">Surgeon\'s note: '+a[2]+'</p>'};
+el.onclick=go;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}}});
+// ECG
+const R={normal:["Normal sinus rhythm",72,1,.03,"Regular beats, each with a P wave (atria), QRS complex (ventricles contract) and T wave (ventricles reset)."],
+brady:["Bradycardia",45,1,.04,"Slow rhythm under 60 bpm. Normal in athletes; in others it can cause dizziness and may need a pacemaker."],
+tachy:["Tachycardia",135,1,.02,"Fast rhythm over 100 bpm. Normal with exercise or fear; sustained episodes need evaluation."],
+afib:["Atrial fibrillation",110,0,.5,"Irregular spacing and no clear P waves because the atria quiver. It raises stroke risk and is treated with medication, ablation, or surgery."]};
+let rk='normal',beats=[],nb=performance.now()/1000-6;
+const rb=$('rbtns');Object.keys(R).forEach(k=>{const b=document.createElement('button');b.className='btn'+(k===rk?' on':'');b.textContent=R[k][0];b.onclick=()=>{rk=k;[...rb.children].forEach(x=>x.classList.remove('on'));b.classList.add('on');info()};rb.appendChild(b)});
+function info(){$('rinfo').innerHTML='<b>'+R[rk][0]+'</b> · about '+R[rk][1]+' bpm<p style="margin:.4em 0 0">'+R[rk][4]+'</p>'}info();
+const g=(x,c,w)=>Math.exp(-Math.pow((x-c)/w,2));
+function shape(d,p){return (p?.12*g(d,-.16,.04):0)-.12*g(d,-.035,.012)+g(d,0,.014)-.25*g(d,.03,.014)+.28*g(d,.23,.06)}
+const cv=$('cv'),cx=cv.getContext('2d');
+function frame(){const dpr=devicePixelRatio||1,W=cv.clientWidth,H=cv.clientHeight;if(cv.width!==W*dpr){cv.width=W*dpr;cv.height=H*dpr}
+cx.setTransform(dpr,0,0,dpr,0,0);cx.clearRect(0,0,W,H);const s=getComputedStyle(document.documentElement),now=performance.now()/1000,r=R[rk];
+while(nb<now+.6){beats.push(nb);nb+=(60/r[1])*(1+(Math.random()*2-1)*r[3])}beats=beats.filter(b=>b>now-12);
+cx.strokeStyle=s.getPropertyValue('--line');cx.lineWidth=1;for(let x=0;x<W;x+=25){cx.beginPath();cx.moveTo(x,0);cx.lineTo(x,H);cx.stroke()}for(let y=0;y<H;y+=25){cx.beginPath();cx.moveTo(0,y);cx.lineTo(W,y);cx.stroke()}
+cx.strokeStyle=s.getPropertyValue('--red');cx.lineWidth=2;cx.beginPath();
+for(let x=0;x<W;x++){const t=now-(W-x)/180;let v=0;for(const b of beats){const d=t-b;if(d>-.3&&d<.5)v+=shape(d,r[2])}if(!r[2])v+=.03*Math.sin(t*55)+.025*Math.sin(t*33+1);const y=H*.65-v*H*.5;x?cx.lineTo(x,y):cx.moveTo(x,y)}
+cx.stroke();requestAnimationFrame(frame)}frame();
+// quiz
+const Q=[["Which chamber pumps oxygen-rich blood to the body?",["Right atrium","Left ventricle","Right ventricle","Left atrium"],1,"The left ventricle has the thickest wall because it must push blood through the whole body."],
+["Which valve sits between the left atrium and left ventricle?",["Tricuspid","Pulmonary","Mitral","Aortic"],2,"The mitral valve has two flaps. The tricuspid is on the right side."],
+["What does CABG stand for?",["Coronary artery bypass graft","Cardiac aortic balloon guide","Central artery blood gauge","Coronary atrial bypass gate"],0,"Surgeons use a vessel from the leg, chest, or arm to route blood around a blocked coronary artery."],
+["On an ECG, which part shows the ventricles contracting?",["P wave","QRS complex","T wave","Baseline"],1,"The tall, sharp QRS complex reflects ventricular depolarization."],
+["Why is atrial fibrillation dangerous?",["It stops the heart","It lets clots form and can cause stroke","It lowers oxygen in the lungs","It blocks coronary arteries"],1,"Blood pools in the quivering atria, and clots can travel to the brain."],
+["Which vessel returns oxygen-poor blood from the head and arms?",["Aorta","Pulmonary vein","Superior vena cava","Coronary artery"],2,"The superior vena cava empties into the right atrium."]];
+let qi=0,sc=0;
+function qr(){const b=$('qbox');if(qi>=Q.length){b.innerHTML='<div class="tag">Done</div><h3 style="margin:.2em 0">You scored '+sc+' / '+Q.length+'</h3><button class="btn on" id="rs">Try again</button>';$('rs').onclick=()=>{qi=0;sc=0;qr()};return}
+const q=Q[qi];b.innerHTML='<div class="tag">Question '+(qi+1)+' of '+Q.length+'</div><h3 style="margin:.3em 0">'+q[0]+'</h3>'+q[1].map((o,i)=>'<button class="opt" data-i="'+i+'">'+o+'</button>').join('')+'<div id="ex"></div>';
+b.querySelectorAll('.opt').forEach(o=>o.onclick=()=>{const i=+o.dataset.i;b.querySelectorAll('.opt').forEach((x,j)=>{x.disabled=true;if(j===q[2])x.classList.add('good')});if(i!==q[2])o.classList.add('bad');else sc++;
+$('ex').innerHTML='<p class="note" style="margin-top:12px">'+q[3]+'</p><button class="btn on" id="nx">'+(qi+1<Q.length?'Next question':'See score')+'</button>';$('nx').onclick=()=>{qi++;qr()}})}qr();
+
+// ---- language layer (later declarations override the English versions above) ----
+function es(){return L==='es'}
+function upd(){const v=+rate.value;$('bpm').textContent=v;ht.style.setProperty('--d',(60/v)+'s');
+$('rateNote').textContent=(es()?['Por debajo del rango normal en reposo','Rango normal de un adulto en reposo','Ejercicio ligero a moderado','Ejercicio intenso']:['Below typical resting range','Resting adult range','Light to moderate exercise','Intense exercise'])[v<60?0:v<=100?1:v<=140?2:3]}
+function info(){const nm=es()?RE[rk][0]:R[rk][0],ds=es()?RE[rk][1]:R[rk][4];$('rinfo').innerHTML='<b>'+nm+'</b> · '+(es()?'aprox. ':'about ')+R[rk][1]+(es()?' lpm':' bpm')+'<p style="margin:.4em 0 0">'+ds+'</p>'}
+function show(){if(!cur)return;const a=(es()?AE:A)[cur];$('info').innerHTML='<div class="tag">'+(es()?'Seleccionado':'Selected')+'</div><h3 style="margin:.2em 0">'+a[0]+'</h3><p style="color:var(--fg)">'+a[1]+'</p><p class="note">'+(es()?'Nota del cirujano: ':"Surgeon's note: ")+a[2]+'</p>'}
+function qr(){const b=$('qbox');if(qi>=Q.length){b.innerHTML='<div class="tag">'+(es()?'Listo':'Done')+'</div><h3 style="margin:.2em 0">'+(es()?'Obtuviste ':'You scored ')+sc+' / '+Q.length+'</h3><button class="btn on" id="rs">'+(es()?'Intentar de nuevo':'Try again')+'</button>';$('rs').onclick=()=>{qi=0;sc=0;qr()};return}
+const q=Q[qi],t=es()?QE[qi]:[q[0],q[1],q[3]];b.innerHTML='<div class="tag">'+(es()?'Pregunta ':'Question ')+(qi+1)+(es()?' de ':' of ')+Q.length+'</div><h3 style="margin:.3em 0">'+t[0]+'</h3>'+t[1].map((o,i)=>'<button class="opt" data-i="'+i+'">'+o+'</button>').join('')+'<div id="ex"></div>';
+b.querySelectorAll('.opt').forEach(o=>o.onclick=()=>{const i=+o.dataset.i;b.querySelectorAll('.opt').forEach((x,j)=>{x.disabled=true;if(j===q[2])x.classList.add('good')});if(i!==q[2])o.classList.add('bad');else sc++;
+$('ex').innerHTML='<p class="note" style="margin-top:12px">'+t[2]+'</p><button class="btn on" id="nx">'+(qi+1<Q.length?(es()?'Siguiente pregunta':'Next question'):(es()?'Ver puntaje':'See score'))+'</button>';$('nx').onclick=()=>{qi++;qr()}})}
+document.querySelectorAll('#map .part').forEach(el=>{const k=el.dataset.k;const go=()=>{document.querySelectorAll('.part.sel').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');cur=k;show()};
+el.onclick=go;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}}});
+function tr(){const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){if(n.parentNode.closest('script,style,#lang'))continue;if(n.__o===undefined)n.__o=n.nodeValue;const k=n.__o.trim();n.nodeValue=(es()&&T[k])?n.__o.replace(k,T[k]):n.__o}}
+$('lang').onclick=()=>{L=es()?'en':'es';document.documentElement.lang=L;$('lang').textContent=es()?'English':'Español';tr();upd();info();show();qr();
+Object.keys(R).forEach((k,i)=>{rb.children[i].textContent=es()?RE[k][0]:R[k][0]});
+document.querySelectorAll('#map .part').forEach(el=>el.setAttribute('aria-label',(es()?AE:A)[el.dataset.k][0]))};
+</script>
+</body>
+</html>
